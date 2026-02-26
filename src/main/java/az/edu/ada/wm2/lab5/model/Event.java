@@ -1,6 +1,7 @@
 package az.edu.ada.wm2.lab5.model;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,5 +112,13 @@ public class Event {
                 ", eventDateTime=" + eventDateTime +
                 ", durationMinutes=" + durationMinutes +
                 '}';
+    }
+
+    public Instant getEventDate() {
+        return null;
+    }
+
+    public Comparable<BigDecimal> getPrice() {
+        return null;
     }
 }

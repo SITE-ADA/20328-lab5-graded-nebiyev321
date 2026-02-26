@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -94,12 +95,23 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getUpcomingEvents() {
-        return List.of();
+        LocalDateTime now = LocalDateTime.now();
+
+        return eventRepository.findAll().stream()
+                .filter(e -> e.getEventDate() != null && e.getEventDate().isAfter(Instant.from(now)))
+                .toList();
     }
 
     @Override
-    public List<Event> getEventsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-       return List.of();
+    public List<Event> getEventsByPriceRange(BigDecimal min, BigDecimal max) {
+        if (min == null || max == null || min.compareTo(max) > 0)
+            return List.of();
+
+        return eventRepository.findAll().stream()
+                .filter(e -> e.getPrice() != null
+                        && e.getPrice().compareTo(min) >= 0
+                        && e.getPrice().compareTo(max) <= 0)
+                .toList();
     }
 
     @Override
